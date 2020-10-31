@@ -1,7 +1,7 @@
-package web.servise;
+package all.web.servise;
 
 import org.springframework.stereotype.Component;
-import web.model.User;
+import all.web.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
