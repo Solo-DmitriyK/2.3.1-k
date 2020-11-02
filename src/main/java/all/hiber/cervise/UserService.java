@@ -4,7 +4,7 @@ import all.web.model.User;
 
 import java.util.List;
 
-public interface UserServise {
+public interface UserService {
 
     List<User> allUsers();
 

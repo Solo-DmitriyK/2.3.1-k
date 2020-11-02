@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserServise {
+public class UserService {
     private  static int COUNT;
     private List<User> userList;
 
     {
         userList = new ArrayList<>();
-        userList.add(new User(++COUNT, "Den"));
-        userList.add(new User(++COUNT, "Ben"));
-        userList.add(new User(++COUNT, "Tom"));
-        userList.add(new User(++COUNT, "Tim"));
+        userList.add(new User("bamos", "Den"));
+//        userList.add(new User(++COUNT, "Ben"));
+//        userList.add(new User(++COUNT, "Tom"));
+//        userList.add(new User(++COUNT, "Tim"));
 
     }
 
-    public List<User> list(){
+    public List<User> allUsers(){
         return userList;
     }
 

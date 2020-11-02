@@ -1,62 +1,63 @@
 package all.web.controller;
 
 
+import all.hiber.cervise.UserServiceImp;
+import all.web.model.User;
+import all.web.servise.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import all.web.model.User;
-import all.web.servise.UserServise;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserServise userServise;
+    private final UserServiceImp userServiceImp;
 
-    @Autowired
-    public UserController(UserServise userServise) {
-        this.userServise = userServise;
+    public UserController(UserServiceImp userServiceImp) {
+        this.userServiceImp = userServiceImp;
     }
 
-    @GetMapping
+
+    @GetMapping("/users")
     public String allUser (Model model){
-        model.addAttribute("users", userServise.list());
-        return "users/users";
+        model.addAttribute("users", userServiceImp.allUsers());
+        return "users";
     }
 
     @GetMapping("/{id}")
-    public String show (@PathVariable("id") int id, Model model){
-        model.addAttribute("user", userServise.show(id));
-        return  "users/user";
+    public String show (@PathVariable("id") long id, Model model){
+        model.addAttribute("user", userServiceImp.getById(id));
+        return  "user";
     }
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user){
-        return "users/new";
+        return "new";
     }
 
     @PostMapping
     public String create(@ModelAttribute("user") User user){
-        userServise.save(user);
+        userServiceImp.add(user);
         return "redirect:/users";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") int id){
-        model.addAttribute("user", userServise.show(id));
-        return "users/edit";
+    public String edit(Model model, @PathVariable("id") long id){
+        model.addAttribute("user", userServiceImp.getById(id));
+        return "edit";
     }
 
     @PatchMapping("/{id}")
-    public String udgate(@ModelAttribute("user") User user, @PathVariable("id") int id){
-        userServise.update(id, user);
+    public String udgate(@ModelAttribute("user") User user, @PathVariable("id") long id){
+        userServiceImp.edit(user);
         return "redirect:/users";
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
-        userServise.delete(id);
+    public String delete(@ModelAttribute("user") User user, @PathVariable("id") long id){
+        userServiceImp.delete(user);
         return "redirect:/users";
     }
 

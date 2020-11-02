@@ -25,7 +25,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("all.hiber.dao")
+//@EnableJpaRepositories("all.hiber.dao")
 @PropertySource("classpath:db.properties")
 @ComponentScan("all")
 public class AppConfig {
@@ -52,7 +52,7 @@ public class AppConfig {
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(getHibernateProperties());
+        em.setJpaProperties(additionalProperties());
 
         return em;
     }
@@ -65,29 +65,29 @@ public class AppConfig {
         return transactionManager;
     }
 
-//    @Bean
-//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-//        return new PersistenceExceptionTranslationPostProcessor();
-//    }
-
-//    Properties additionalProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-//
-//        return properties;
-//    }
-
-    private Properties getHibernateProperties() {
-        try {
-            Properties properties = new Properties();
-            InputStream in = getClass().getClassLoader().getResourceAsStream("hibernate.properties");
-            properties.load(in);
-            return properties;
-        } catch (IOException e){
-            throw new IllegalArgumentException("No podemos encontrar Hibernate.properies", e);
-        }
-
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+        return new PersistenceExceptionTranslationPostProcessor();
     }
+
+    Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+
+        return properties;
+    }
+
+//    private Properties getHibernateProperties() {
+//        try {
+//            Properties properties = new Properties();
+//            InputStream in = getClass().getClassLoader().getResourceAsStream("hibernate.properties");
+//            properties.load(in);
+//            return properties;
+//        } catch (IOException e){
+//            throw new IllegalArgumentException("No podemos encontrar Hibernate.properies", e);
+//        }
+//
+//    }
 
 }
